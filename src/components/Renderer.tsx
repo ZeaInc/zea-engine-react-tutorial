@@ -165,15 +165,13 @@ class Renderer extends React.Component<any, any> {
 
   render() {
     return (
-      <div>
-        <Canvas
-          ref={this.renderer}
-          className="screen"
-          id="canvas"
-          width="500px"
-          height="500px"
-        ></Canvas>
-      </div>
+      <Canvas
+        ref={this.renderer}
+        className="screen"
+        id="canvas"
+        width="500px"
+        height="500px"
+      />
     );
   }
 }

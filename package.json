@@ -43,6 +43,7 @@
   "devDependencies": {
     "@zeainc/zea-engine": "^3.13.0",
     "deni-react-treeview": "^1.1.11",
+    "prettier": "^2.4.1",
     "react-reflex": "^4.0.3",
     "sass": "^1.43.4"
   }
