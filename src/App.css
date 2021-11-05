@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,38 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+.screen {
+  display: flex;
+  /* display: block;
+  height: 500px !important;
+  width: 500px !important; */
+}
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  /* flex-direction: column; */
+}
+
+.App__bar {
+  height: 100%;
+  width: 5rem;
+  background: blue;
+  cursor: pointer;
+}
+
+.App__content {
+  height: 100%;
+  width: calc(100% - 5rem);
 }
