@@ -39,9 +39,6 @@
 
 .screen {
   display: flex;
-  /* display: block;
-  height: 500px !important;
-  width: 500px !important; */
 }
 html,
 body,

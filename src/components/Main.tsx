@@ -19,7 +19,7 @@ class Main extends React.Component<any, any> {
       selected: null,
     }
 
-    this.setState({ selected: 100 })
+    // this.setState({ selected: 100 })
   }
 
   onSelectItemHandler = (item: any) => {
@@ -32,17 +32,17 @@ class Main extends React.Component<any, any> {
         <ReflexElement className="left-pane">
           <DeniReactTreeView
             ref={this.treeviewRef}
-            style={{ marginRight: '10px', marginBottom: '10px' }}
-            key={0}
-            showCheckbox={true}
+            style={{ width: 'auto', height: '99%' }}
+            // key={0}
+            // showCheckbox={true}
             theme={'classic'}
             items={this.state.treeNodes}
             onSelectItem={this.onSelectItemHandler}
           />
         </ReflexElement>
 
-        <ReflexSplitter />
-        <ReflexElement className="right-pane" minSize={800} maxSize={1600}>
+        <ReflexSplitter propagate={true} />
+        <ReflexElement className="right-pane" flex={0.85}>
           <Renderer
             selected={this.state.selected}
             setSelected={(selected: number) => {
