@@ -18,7 +18,7 @@ interface ITreeNode {
   id: number
   isLeaf: boolean
   children: ITreeNode[]
-  geomItem: GeomItem
+  geomItem: GeomItem | null
 }
 
 class Renderer extends React.Component<any, any> {
@@ -59,6 +59,13 @@ class Renderer extends React.Component<any, any> {
     if (prevProps.selected !== this.props.selected) {
       this.highlight(this.props.selected)
     }
+  }
+
+  highlight(geomItem: GeomItem) {
+    if (geomItem == null) return
+
+    if(geomItem)
+    geomItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
   }
 
   initialize() {
@@ -106,10 +113,10 @@ class Renderer extends React.Component<any, any> {
     )
     geomItem2.addChild(geomItem4)
   }
+
   /*
     traverse tree and create node tree
   */
-
   traverse_tree() {
     let nodes: ITreeNode[] = this.traverse_tree_helper(this.scene.getRoot())
     const root: ITreeNode = {
@@ -117,6 +124,7 @@ class Renderer extends React.Component<any, any> {
       id: 1,
       isLeaf: false,
       children: nodes,
+      geomItem: null,
     }
     return [root]
   }
@@ -134,7 +142,7 @@ class Renderer extends React.Component<any, any> {
           id: child.getId(),
           isLeaf: true,
           children: [],
-          geomItem: child
+          geomItem: child,
         }
         // get child nodes of this childnode
         childNode.children = this.traverse_tree_helper(child)
@@ -143,21 +151,6 @@ class Renderer extends React.Component<any, any> {
       }
     }
     return items
-  }
-
-  unhighlight() {
-    for (const treeItem of Object.values(this.id_treeItem)) {
-      treeItem.removeHighlight('hl')
-    }
-  }
-
-  highlight(id: number) {
-    if (typeof id !== 'number') return
-    this.unhighlight()
-    const treeItem = this.id_treeItem[id]
-    if (treeItem instanceof GeomItem) {
-      treeItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
-    }
   }
 
   render() {
