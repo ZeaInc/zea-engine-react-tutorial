@@ -24,7 +24,7 @@ interface ITreeNode {
 class Renderer extends React.Component<any, any> {
   scene: Scene = new Scene()
   renderer?: GLRenderer | any
-  id_treeItem: Record<number, TreeItem> = {}
+
   constructor(props: any) {
     super(props)
     this.state = {
@@ -43,9 +43,9 @@ class Renderer extends React.Component<any, any> {
 
     this.renderer.getViewport().on('pointerDown', (event: any) => {
       const geomItem = event?.intersectionData?.geomItem
-      const id = geomItem?.__id
-      if (id !== undefined) {
-        this.state.setSelected(id) // callback to force re render...
+
+      if (geomItem instanceof GeomItem) {
+        this.state.setSelected(geomItem)
       } else {
         this.state.setSelected(null)
       }
@@ -61,11 +61,12 @@ class Renderer extends React.Component<any, any> {
     }
   }
 
-  highlight(geomItem: GeomItem) {
-    if (geomItem == null) return
+  highlight(treeItem: GeomItem) {
+    if (treeItem == null) return
 
-    if(geomItem)
-    geomItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
+    if (treeItem instanceof GeomItem){
+      treeItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
+    }
   }
 
   initialize() {
@@ -135,7 +136,6 @@ class Renderer extends React.Component<any, any> {
     var items = []
     for (var child of treeItem.getChildren()) {
       if (child instanceof GeomItem) {
-        this.id_treeItem[child.getId()] = child // custom map for fast highlight given an id
         // construct child node
         const childNode: ITreeNode = {
           text: child.getName(),
