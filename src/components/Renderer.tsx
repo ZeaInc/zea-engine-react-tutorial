@@ -34,12 +34,13 @@ class Renderer extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    console.log('Renderer mount')
-    this.renderer = new GLRenderer(document.getElementById('canvas')) //React.createRef();//
+    this.renderer = new GLRenderer(document.getElementById('canvas')) //React.createRef();
     this.renderer.setScene(this.scene)
-
     this.scene.setupGrid(10, 10)
-    this.initialize()
+    const camera = this.renderer.getViewport().getCamera()
+    camera.setPositionAndTarget(new Vec3(6, 6, 5), new Vec3(0, 0, 1.5))
+
+    this.setScene()
 
     this.renderer.getViewport().on('pointerDown', (event: any) => {
       const geomItem = event?.intersectionData?.geomItem
@@ -64,54 +65,36 @@ class Renderer extends React.Component<any, any> {
   highlight(treeItem: GeomItem) {
     if (treeItem == null) return
 
-    if (treeItem instanceof GeomItem){
-      treeItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
+    if (treeItem instanceof GeomItem) {
+      if (treeItem.isHighlighted()) {
+        treeItem.removeHighlight('hl', false)
+      } else {
+        treeItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
+      }
     }
   }
 
-  initialize() {
-    const camera = this.renderer.getViewport().getCamera()
-    camera.setPositionAndTarget(new Vec3(6, 6, 5), new Vec3(0, 0, 1.5))
+
+  setScene() {
     const material = new Material('surfaces', 'SimpleSurfaceShader')
-
     material.getParameter('BaseColor')?.setValue(new Color(0.5, 0.5, 0.5))
-
     const sphere = new Sphere(1.0, 20, 20)
-    const geomItem0 = new GeomItem(
-      'sphere0',
-      sphere,
-      material,
-      new Xfo(new Vec3(0, 0, 0))
-    )
-    this.scene.getRoot().addChild(geomItem0)
 
-    const geomItem1 = new GeomItem(
-      'sphere01',
-      sphere,
-      material,
-      new Xfo(new Vec3(0, 5, 0))
-    )
+    const createSphere = (name: string, position: Vec3) => {
+      const geomItem = new GeomItem(name, sphere, material, new Xfo(position))
+      return geomItem
+    }
+    
+    const geomItem0 = createSphere('sphere0', new Vec3(0, 0, 0))
+    const geomItem1 = createSphere('sphere1', new Vec3(0, 5, 0))
+    const geomItem2 = createSphere('sphere2', new Vec3(0, -5, 0))
+    const geomItem3 = createSphere('sphere3', new Vec3(5, 0, 0))
+    const geomItem4 = createSphere('sphere5', new Vec3(-5, 0, 0))
+
+    this.scene.getRoot().addChild(geomItem0)
     this.scene.getRoot().addChild(geomItem1)
-    const geomItem2 = new GeomItem(
-      'sphere2',
-      sphere,
-      material,
-      new Xfo(new Vec3(0, -5, 0))
-    )
     geomItem1.addChild(geomItem2)
-    const geomItem3 = new GeomItem(
-      'sphere3',
-      sphere,
-      material,
-      new Xfo(new Vec3(5, 0, 0))
-    )
     geomItem2.addChild(geomItem3)
-    const geomItem4 = new GeomItem(
-      'sphere4',
-      sphere,
-      material,
-      new Xfo(new Vec3(-5, 0, 0))
-    )
     geomItem2.addChild(geomItem4)
   }
 
