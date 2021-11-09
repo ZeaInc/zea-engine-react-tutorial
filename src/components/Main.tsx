@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 // @ts-ignore
 import DeniReactTreeView from 'deni-react-treeview'
 import { Renderer } from './Renderer'

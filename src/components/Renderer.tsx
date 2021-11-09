@@ -1,5 +1,4 @@
 import React from 'react'
-// import { Canvas } from '../hooks/Canvas'
 
 import {
   Scene,
@@ -138,8 +137,6 @@ class Renderer extends React.Component<any, any> {
 
   render() {
     return (
-      //<canvas ref={this.canvasRef }  />
-
       <canvas
         ref={this.canvasRef}
         className="screen"
