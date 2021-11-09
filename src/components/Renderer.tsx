@@ -1,5 +1,5 @@
 import React from 'react'
-import { Canvas } from '../hooks/Canvas'
+// import { Canvas } from '../hooks/Canvas'
 
 import {
   Scene,
@@ -24,17 +24,18 @@ interface ITreeNode {
 class Renderer extends React.Component<any, any> {
   scene: Scene = new Scene()
   renderer?: GLRenderer | any
-
+  canvasRef: any
   constructor(props: any) {
     super(props)
     this.state = {
       setSelected: props.setSelected,
       setTree: props.setTree,
     }
+    this.canvasRef = React.createRef()
   }
 
   componentDidMount() {
-    this.renderer = new GLRenderer(document.getElementById('canvas')) //React.createRef();
+    this.renderer = new GLRenderer(this.canvasRef.current)
     this.renderer.setScene(this.scene)
     this.scene.setupGrid(10, 10)
     const camera = this.renderer.getViewport().getCamera()
@@ -74,7 +75,6 @@ class Renderer extends React.Component<any, any> {
     }
   }
 
-
   setScene() {
     const material = new Material('surfaces', 'SimpleSurfaceShader')
     material.getParameter('BaseColor')?.setValue(new Color(0.5, 0.5, 0.5))
@@ -84,7 +84,7 @@ class Renderer extends React.Component<any, any> {
       const geomItem = new GeomItem(name, sphere, material, new Xfo(position))
       return geomItem
     }
-    
+
     const geomItem0 = createSphere('sphere0', new Vec3(0, 0, 0))
     const geomItem1 = createSphere('sphere1', new Vec3(0, 5, 0))
     const geomItem2 = createSphere('sphere2', new Vec3(0, -5, 0))
@@ -138,8 +138,10 @@ class Renderer extends React.Component<any, any> {
 
   render() {
     return (
-      <Canvas
-        ref={this.renderer}
+      //<canvas ref={this.canvasRef }  />
+
+      <canvas
+        ref={this.canvasRef}
         className="screen"
         id="canvas"
         width="500px"
