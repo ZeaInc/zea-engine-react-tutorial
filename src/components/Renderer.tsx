@@ -58,19 +58,30 @@ class Renderer extends React.Component<any, any> {
 
   componentDidUpdate(prevProps: any) {
     if (prevProps.selected !== this.props.selected) {
-      this.highlight(this.props.selected)
+      this.unhighlight(prevProps.selected)
+      this.toggle_highlight(this.props.selected)
+    } else {
+      this.toggle_highlight(this.props.selected)
     }
   }
 
-  highlight(treeItem: GeomItem) {
+  toggle_highlight(treeItem: GeomItem) {
     if (treeItem == null) return
+    if (!(treeItem instanceof GeomItem)) return
 
-    if (treeItem instanceof GeomItem) {
-      if (treeItem.isHighlighted()) {
-        treeItem.removeHighlight('hl', false)
-      } else {
-        treeItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
-      }
+    if (!treeItem.isHighlighted()) {
+      treeItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
+    } else {
+      treeItem.removeHighlight('hl', false)
+    }
+  }
+
+  unhighlight(treeItem: GeomItem) {
+    if (treeItem == null) return
+    if (!(treeItem instanceof GeomItem)) return
+
+    if (treeItem.isHighlighted()) {
+      treeItem.removeHighlight('hl', false)
     }
   }
 
