@@ -26,33 +26,45 @@ class Viewport3D extends React.Component<any, any> {
   canvasRef: React.RefObject<any>
   constructor(props: any) {
     super(props)
-    this.state = {}
-
     this.state = {
+      setSelected: props.setSelected,
       setTree: props.setTree,
     }
     this.canvasRef = React.createRef()
   }
-
-  // this method is called when the component is initially mounted and initially renders.
   // this method is called when the component is initially mounted and initially renders.
   componentDidMount() {
     this.renderer = new GLRenderer(this.canvasRef.current)
     this.renderer.setScene(this.scene)
-
-    // The parameters for setupGrid are gridSize, the size of the grid
-    // and the resolution, or the number of divisions in the grid.
     this.scene.setupGrid(10, 10)
 
     const camera = this.renderer.getViewport().getCamera()
     camera.setPositionAndTarget(new Vec3(6, 6, 5), new Vec3(0, 0, 1.5))
 
     this.setupScene()
-    const nodes = this.traverse_tree();
-    this.state.setTree(nodes);
+
+    const nodes = this.traverse_tree()
+    this.state.setTree(nodes)
+    
+    this.renderer.getViewport().on('pointerDown', (event: any) => {
+      const geomItem = event?.intersectionData?.geomItem
+      if (geomItem instanceof GeomItem) {
+        this.state.setSelected(geomItem)
+      } else {
+        this.state.setSelected(null)
+      }
+    })
   }
   // this method is called the 'props' of the component are changed.
-  componentDidUpdate(prevProps: any) {}
+  componentDidUpdate(prevProps: any) {
+    if (prevProps.selected !== this.props.selected) {
+      this.unhighlight(prevProps.selected)
+      this.toggle_highlight(this.props.selected)
+    } else {
+      this.toggle_highlight(this.props.selected)
+    }
+  }
+
   setupScene() {
     const material = new Material('surfaces', 'SimpleSurfaceShader')
     material.getParameter('BaseColor')?.setValue(new Color(0.5, 0.5, 0.5))
@@ -111,6 +123,26 @@ class Viewport3D extends React.Component<any, any> {
       }
     }
     return items;
+  }
+
+  toggle_highlight(treeItem: GeomItem) {
+    if (treeItem == null) return
+    if (!(treeItem instanceof GeomItem)) return
+
+    if (!treeItem.isHighlighted()) {
+      treeItem.addHighlight('hl', new Color(1.0, 1.0, 0.2, 0.5), false)
+    } else {
+      treeItem.removeHighlight('hl', false)
+    }
+  }
+
+  unhighlight(treeItem: GeomItem) {
+    if (treeItem == null) return
+    if (!(treeItem instanceof GeomItem)) return
+
+    if (treeItem.isHighlighted()) {
+      treeItem.removeHighlight('hl', false)
+    }
   }
   // The Viewport3D component needs a reference to the canvas in order to initialize.
   render() {

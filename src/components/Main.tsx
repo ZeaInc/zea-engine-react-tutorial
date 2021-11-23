@@ -9,10 +9,12 @@ class Main extends React.Component<any, any> {
     super(props)
     this.state = { 
       treeNodes: [],
-
+      selected: null,
     }
   }
-
+  onSelectItemHandler = (item: any) => {
+    this.setState({ selected: item.geomItem })
+  }
   render() {
     return (
       <ReflexContainer orientation="vertical">
@@ -21,6 +23,7 @@ class Main extends React.Component<any, any> {
             style={{ width: 'auto', height: '99%' }}
             theme={'classic'}
             items={this.state.treeNodes}
+            onSelectItem={this.onSelectItemHandler}
           />
         </ReflexElement>
 
@@ -28,10 +31,14 @@ class Main extends React.Component<any, any> {
 
         <ReflexElement className="right-pane" flex={0.85}>
         <Viewport3D
-            setTree={(nodes: any) => {
-              this.setState({ treeNodes: nodes })
-            }}
-          ></Viewport3D>
+          selected={this.state.selected}
+          setSelected={(selected: number) => {
+            this.setState({ selected: selected })
+          }}
+          setTree={(nodes: any) => {
+            this.setState({ treeNodes: nodes })
+          }}
+        ></Viewport3D>
         </ReflexElement>
       </ReflexContainer>
     )
