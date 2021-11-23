@@ -2554,11 +2554,12 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zeainc/zea-engine@^3.13.0":
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/@zeainc/zea-engine/-/zea-engine-3.13.0.tgz#8788b410f5a8e37b2a9541828eeba779d68fcbfd"
-  integrity sha512-kO933WX0mej3rXx79MrHb7rMprr+qM2AqTvWxSs2ee5e2epKMq8jMawQGmZSK/DPpk0SEllAlCLxbLnFraWlrA==
+"@zeainc/zea-engine@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@zeainc/zea-engine/-/zea-engine-4.0.0.tgz#dc7186d6c34f56ad34b04ab6a34f09e5bf49d204"
+  integrity sha512-LLgfH+/HgmtxQEE64I42lplNgrFRpvpQda0yD1AP6cY2qmn+Cjq5+Y2hWZMRXOO+p1C9eYAai6qXISVRWeS3OQ==
   dependencies:
+    husky-run "^0.0.0"
     lodash "^4.17.21"
     rollup-plugin-base64 "^1.0.1"
 
@@ -6244,6 +6245,11 @@ human-signals@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
+
+husky-run@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/husky-run/-/husky-run-0.0.0.tgz#b1ec3808d781ca0811d1f69b88ea345455476900"
+  integrity sha512-gYI6/jEHQ1fjqVTAAxnH+TAJ0haLYA42z1tFnn51g/pIFR9HS3WNWtgb/g230bYxGYKzsLfdSg+rQO1pBtp4fg==
 
 iconv-lite@0.4.24:
   version "0.4.24"
